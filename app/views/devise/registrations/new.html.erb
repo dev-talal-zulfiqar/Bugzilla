@@ -1,0 +1,52 @@
+<div class="content">
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-6">
+      <%= image_tag("undraw_remotely_2j6y.svg", :class => "img-width-100",alt: "Edit Entry")%>
+      </div>
+      <div class="col-md-6 contents">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="mb-4">
+            <h3>Sign Up</h3>
+            <p class="mb-4">Easily customize your workflows by turning on tons of powerful features with a single click.</p>
+          </div>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
+
+            <div class="field form-group first">
+              <%= f.label :Name %><br />
+              <%= f.text_field :name, :class => 'form-control', autofocus: true, autocomplete: "name" %>
+            </div>
+
+            <div class="field form-group first">
+              <%= f.label :email %><br />
+              <%= f.email_field :email, :class => 'form-control', autofocus: true, autocomplete: "email" %>
+            </div>
+
+            <div class="field form-group first">
+              <%= f.label :password %>
+              <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+              <% end %><br />
+              <%= f.password_field :password, :class => 'form-control',autocomplete: "new-password" %>
+            </div>
+
+            <div class="field form-group last mb-4">
+              <%= f.label :password_confirmation %><br />
+              <%= f.password_field :password_confirmation, :class => 'form-control', autocomplete: "new-password" %>
+            </div>
+
+            <%= f.submit "Sign up", :class => 'form-group last btn btn-block btn-primary btn-theme-color mb-2' %>
+
+          <% end %>
+
+          <%= render "devise/shared/links" %>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
