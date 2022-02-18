@@ -24,12 +24,13 @@
               <%= f.email_field :email, class: 'form-control', autofocus: true, autocomplete: 'email' %>
             </div>
 
-            <div class='field form-group first'>
+            <div class="field form-group first">
               <%= f.label :role %><br />
-              <%= f.select :role, [['Manager', 'manager'], ['Developer', 'developer'], ['software Qualtiy Assurance', 'software_quality_assurance']], {}, class: 'form-control' %>
+              <%= f.select :role, [['Manager', 'manager'], ['Developer', 'developer'], ['software Qualtiy Assurance', 'software_quality_assuarance']], {}, class: "form-control" %>
             </div>
 
-            <div class='field form-group first'>
+
+            <div class="field form-group first">
               <%= f.label :password %>
               <% if @minimum_password_length %>
               <em>(<%= @minimum_password_length %> characters minimum)</em>
