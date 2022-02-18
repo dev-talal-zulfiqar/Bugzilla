@@ -1,6 +1,36 @@
-<h1>Projects#index</h1>
-<p>Find me in app/views/projects/index.html.erb</p>
 
-
-
-  <%= link_to("Logout", destroy_user_session_path, :method => :delete) %>
+<%= link_to("Logout", destroy_user_session_path, :method => :delete) %>
+<%= link_to("Create New Project",new_project_path, :method => :get) %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center mb-5">
+      <h2 class="heading-section">List of Projects</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-wrap">
+        <table class="table">
+          <thead class="thead-primary">
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @projects.each do |project| %>
+            <tr>
+              <th scope="row"><%= project.id%></th>
+              <td><%=project.title %></td>
+              <td><%=project.description %></td>
+              <td>Edit/delete</td>
+            </tr>
+          <%end%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
