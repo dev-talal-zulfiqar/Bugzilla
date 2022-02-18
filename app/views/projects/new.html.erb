@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center mb-5">
+      <h2 class="heading-section">Create New Project</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <%= form_for @project do |f| %>
+        <div class="form-group first">
+          <%= f.label :title %><br />
+          <%= f.text_field :title, :class => 'form-control', autofocus: true, autocomplete: "title" %>
+        </div>
+
+        <div class="form-group last">
+          <%= f.label :description %><br />
+          <%= f.text_field :description, :class => 'form-control', autocomplete: "description" %>
+        </div>
+
+<!--
+        <div class="form-group last">
+          <% f.label :user_id %><br />
+          <% f.text_field :user_id, :class => 'form-control', autocomplete: current_user.id %>
+        </div>
+-->
+
+        <%= f.submit "Create Project", :class => 'btn btn-block btn-primary btn-theme-color mb-2' %>
+      <% end %>
+    </div>
+  </div>
+</div>
