@@ -10,20 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_104747) do
+ActiveRecord::Schema.define(version: 2022_02_22_151848) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "bugs", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description"
+    t.datetime "deadline"
+    t.integer "bug_type", null: false
+    t.integer "status", null: false
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_bugs_on_project_id"
+    t.index ["title"], name: "index_bugs_on_title", unique: true
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string "title", null: false
     t.string "description", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "projects_users", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "project_id"
+    t.bigint "user_id"
+    t.bigint "project_id"
     t.index ["project_id"], name: "index_projects_users_on_project_id"
     t.index ["user_id"], name: "index_projects_users_on_user_id"
   end
@@ -42,4 +58,5 @@ ActiveRecord::Schema.define(version: 2022_02_18_104747) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "projects", "users"
 end
