@@ -22,8 +22,12 @@ ActiveRecord::Schema.define(version: 2022_02_22_151848) do
     t.integer "bug_type", null: false
     t.integer "status", null: false
     t.bigint "project_id"
+    t.integer "created_by_id"
+    t.integer "assigned_to_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["assigned_to_id"], name: "index_bugs_on_assigned_to_id"
+    t.index ["created_by_id"], name: "index_bugs_on_created_by_id"
     t.index ["project_id"], name: "index_bugs_on_project_id"
     t.index ["title"], name: "index_bugs_on_title", unique: true
   end
