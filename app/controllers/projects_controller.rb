@@ -8,11 +8,8 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
-    if authorize @project
-      @user = User.where(role: ['developer','software_quality_assurance'])
-    else
-      access_denied
-    end
+    authorize @project
+    @user = User.where(role: ['developer','software_quality_assurance'])
   end
 
   def create
@@ -49,7 +46,7 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params.require(:id))
     @user = @project.users
-    authorize @project, :show?
+    authorize @project
     @project
   end
 
