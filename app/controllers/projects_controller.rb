@@ -8,13 +8,13 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
-    authorize @project
+    authorize @project, :new?
     @user = User.where(role: ['developer','software_quality_assurance'])
   end
 
   def create
     @project = Project.new(permit_params)
-    authorize @project
+    authorize @project, :create?
     @project.user_id = current_user.id
     @project.save
     if @project.projects_users.create(user_id: permit_params[:user_id])
@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
   def edit
     id = params.require(:id)
     @project = Project.find(id)
-    authorize @project
+    authorize @project, :edit?
     @user = User.all
   end
 
@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params.require(:id))
     @user = @project.users
-    authorize @project
+    authorize @project, :show?
     @project
   end
 
