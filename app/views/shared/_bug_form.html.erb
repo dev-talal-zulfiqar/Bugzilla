@@ -13,7 +13,7 @@
                     </div>
                     <div class='mt-2'>
                       <h5 class="m-b-5">Bug Title</h5>
-                      <%= f.text_field :title, :class => 'form-control'  %> <br />
+                      <%= f.text_field :title, class: 'form-control', Required: true  %> <br />
                     </div>
                     <div class=''>
                         <h5 class="m-b-5">Bug Type</h5>
@@ -26,7 +26,7 @@
                     <% if is_editable%>
                       <div class=''>
                         <h5 class="m-b-5">Status</h5>
-                        <%= f.select :status, Bug.statuses.keys.map { |w| [w.humanize, w] }, {},:class => 'form-control' %>
+                        <%= f.select :status, Bug.statuses.keys.map { |w| [w.humanize, w] }, {}, class: 'form-control'%>
                       </div>
                     <%end%>
                     <ul class="list-inline task-dates m-b-0 mt-2">
@@ -46,14 +46,6 @@
                             <div class="file-box">
                                 <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-responsive img-thumbnail" alt="attached-img"></a>
                                 <p class="font-13 mb-1 text-muted"><small>File one</small></p>
-                            </div>
-                            <div class="file-box">
-                                <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-responsive img-thumbnail" alt="attached-img"></a>
-                                <p class="font-13 mb-1 text-muted"><small>Attached-2</small></p>
-                            </div>
-                            <div class="file-box">
-                                <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="img-responsive img-thumbnail" alt="attached-img"></a>
-                                <p class="font-13 mb-1 text-muted"><small>Dribbble shot</small></p>
                             </div>
                             <div class="file-box ml-3"><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a></div>
                         </div>

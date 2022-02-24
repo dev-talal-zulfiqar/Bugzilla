@@ -1,12 +1,21 @@
+# frozen_string_literal: true
+
+# Description of project policy scope
 class ProjectPolicy < ApplicationPolicy
   attr_reader :user, :project
+
+  def initialize(user, project)
+    super(user, project)
+    @user = user
+    @project = project
+  end
 
   def index?
     user.manager?
   end
 
   def show?
-    user.manager?
+    user.manager? || user.software_quality_assurance? || include_user
   end
 
   def create?
@@ -18,27 +27,26 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    user.manager?
+    user.manager? && project.created_by == user
   end
 
   def edit?
-    user.manager?
+    user.manager? && project.created_by == user
   end
 
   def destroy?
-    user.manager?
+    user.manager? && project.created_by == user
   end
 
+  def include_user
+    project.users.include? user
+  end
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
     def resolve
-      if user.manager?
-        scope.all
+      if user.developer?
+        scope.joins(:users).where users: { id: user.id }
       else
-        scope.where(published: true)
+        scope.all
       end
     end
   end

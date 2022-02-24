@@ -3,13 +3,14 @@
 # Bugs controller
 class BugsController < ApplicationController
   def index
-    @bugs = Bug.where(project_id:[params[:project_id]])
+    @bugs = Bug.where(project_id: params[:project_id])
   end
 
   def new
     @project = Project.find(params[:project_id])
     @bug = Bug.new
-    @user = User.where(role: ['developer','software_quality_assurance'])
+    authorize @bug, :new?
+    @user = User.where(role: ['developer', 'software_quality_assurance'])
   end
 
   def create
@@ -17,18 +18,25 @@ class BugsController < ApplicationController
     @bug.status = 'opened'
     @bug.created_by_id = current_user.id
     @bug.project_id = params[:project_id]
-    @bug.save
-    redirect_to ''
+    authorize @bug, :create?
+    if @bug.save
+      flash[:success] = 'Bug Generated'
+    else
+      flash[:error] = 'something went wrong'
+    end
+    redirect_to project_bugs_path, project_id: params[:project_id]
   end
 
   def edit
     id = params.require(:id)
     @bug = Bug.find(id)
+    authorize @bug, :edit?
     @user = User.all
   end
 
   def update
     @bug = Bug.find(params.require(:id))
+    authorize @bug, :update?
     if @bug.update_attributes(permit_params)
       flash[:success] = 'Bug updated!'
       redirect_to ''
@@ -47,8 +55,13 @@ class BugsController < ApplicationController
 
   def destroy
     @bug = Bug.find(params[:id])
-    @bug.destroy
-    redirect_to ''
+    authorize @bug, :destroy?
+    if @bug.destroy
+      flash[:notice] = 'Bug deleted!'
+      redirect_to project_bugs_path, project_id: params[:project_id]
+    else
+      flash[:error] = 'something went wrong'
+    end
   end
 
   private
