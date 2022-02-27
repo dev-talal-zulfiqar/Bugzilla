@@ -1,0 +1,6 @@
+production:
+  cloud_name: 'dsjn0xyby'
+  api_key: '838534121981359'
+  api_secret: 'JnZ1BEwluzT2U_7_bTrMO1FkqFQ'
+  secure: true
+  cdn_subdomain: true

@@ -45,8 +45,8 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params.require(:id))
-    @user = @project.users
     authorize @project, :show?
+    @user = @project.users
     @project
   end
 
