@@ -11,6 +11,9 @@ class User < ApplicationRecord
 
   enum role: { manager: 0, developer: 1, software_quality_assurance: 2 }
 
+  validates :password, :role, presence: true
+  validates :email, uniqueness: true
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 end
