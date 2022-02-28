@@ -4,7 +4,7 @@
           <div class='col-lg-6'>
               <div class='card-box task-detail'>
                   <div class='media mt-0 m-b-30'>
-                    <img class='d-flex mr-3 rounded-circle' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar2.png' style='width: 48px; height: 48px;'>
+                    <img class='d-flex mr-3 rounded-circle avatar-width' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar2.png'>
                       <div class='media-body'>
                         <h5 class='media-heading mb-0 mt-0'><%= @created_by.name%></h5><span class='badge badge-danger'><%= @bug.status%></span>
                       </div>
@@ -29,9 +29,9 @@
                       <div class='files-list'>
                           <% if @bug.screenshot.attached?%>
                             <%= image_tag(@bug.screenshot, style: 'width: 100%') %>
-                          <%else%>
+                          <% else %>
                             <p>No photo attached</p>
-                          <%end%>
+                          <% end %>
                       </div>
                       <div class='row'>
                           <div class='col-sm-12'>

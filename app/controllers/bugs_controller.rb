@@ -3,8 +3,9 @@
 # Bugs controller
 class BugsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_and_autherize, only: %w[edit update show destroy]
-  before_action :set_project, only: %w[index new]
+  before_action :find_and_autherize, only: %i[edit update show destroy]
+  before_action :set_project, only: %i[index new]
+
   def index
     @project = set_project
     authorize @project, :show?
@@ -71,7 +72,7 @@ class BugsController < ApplicationController
   end
 
   def generate_new_bug(bug)
-    bug.status = 'opened'
+    bug.status = bug.opened
     bug.created_by_id = current_user.id
     bug.project_id = params[:project_id]
   end

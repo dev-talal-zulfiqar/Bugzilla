@@ -5,7 +5,7 @@
             <%= form_with(model: [@project, @bug]) do |f| %>
                 <div class='card-box task-detail'>
                     <div class='media mt-0 m-b-30'>
-                      <img class='d-flex mr-3 rounded-circle' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar2.png' style='width: 48px; height: 48px;'>
+                      <img class='d-flex mr-3 rounded-circle avatar-width' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar2.png'>
                         <div class='media-body'>
                           <h5 class='media-heading mb-0 mt-0'>Created By User Name</h5>
                           <span class='badge badge-danger'>Project Status</span>
@@ -39,7 +39,7 @@
 
                     <div class='assign-team mt-4 form-group last'>
                         <h5 class='m-b-5'>Assign to</h5>
-                        <%= f.select :assigned_to_id, @user.map{ |type| [type.name.capitalize, type.id] }, {} ,:class => 'form-control' %>
+                        <%= f.select :assigned_to_id, @user.collect{ |type| [type.name.capitalize, type.id] }, {} ,class: 'form-control' %>
                     <div class='attached-files mt-4'>
                         <h5 class=''>Attached Files</h5>
                         <div class='files-list'>

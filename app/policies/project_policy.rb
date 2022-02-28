@@ -45,6 +45,8 @@ class ProjectPolicy < ApplicationPolicy
     def resolve
       if user.developer?
         scope.joins(:users).where users: { id: user.id }
+      elsif user.manager?
+        scope.where(user_id: user.id)
       else
         scope.all
       end
