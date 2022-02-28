@@ -4,15 +4,19 @@
 class BugsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_and_autherize, only: %w[edit update show destroy]
-
+  before_action :set_project, only: %w[index new]
   def index
-    @project = Project.find(params[:project_id])
+    @project = set_project
     authorize @project, :show?
-    @bugs = Bug.where(project_id: params[:project_id])
+    if @project
+      @bugs = @project.bugs
+    else
+      flash[:error] = 'Project not found'
+    end
   end
 
   def new
-    @project = Project.find(params[:project_id])
+    @project = set_project
     @bug = Bug.new
     authorize @bug, :new?
     @user = User.where(role: %w[developer software_quality_assurance])
@@ -50,16 +54,16 @@ class BugsController < ApplicationController
   end
 
   def destroy
-    if @bug.screenshot.attached?
-      @bug.screenshot.purge
-    end
+    @bug.screenshot.purge if @bug.screenshot.attached?
     if @bug.destroy
       flash[:notice] = 'Bug deleted!'
-      redirect_to project_bugs_path, project_id: params[:project_id]
+      redirect_to request.referrer
     else
       flash[:error] = 'something went wrong'
     end
   end
+
+  private
 
   def find_and_autherize
     @bug = Bug.find(params[:id])
@@ -72,7 +76,9 @@ class BugsController < ApplicationController
     bug.project_id = params[:project_id]
   end
 
-  private
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
 
   def permit_params
     params.require(:bug).permit(:title, :description, :assigned_to_id, :bug_type, :status, :deadline, :screenshot)
