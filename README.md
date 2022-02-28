@@ -6,32 +6,29 @@ there are three types of users
 2. Developer
 3. Software Quality Assuarance
 
-* Roles:
-* Project Roles
+# Roles:
+## Project Roles
   Manager can create/edit/delete the projects he/she created.
   Developers can view projects in which they are assigned.
   Quality assuarance can view all projects.
-* Bugs Roles
+## Bugs Roles
   Manager and QA can create new bugs
 
 
-* Ruby version
+# Ruby version
   ruby 2.7.2
+  rails 5.2.6.2
 
-* Gem dependencies
+# Gem dependencies
   gem 'bootstrap', '~> 4.4.1'
   gem 'cloudinary'
   gem 'devise'
   gem 'jquery-rails'
   gem 'pundit'
 
-* Configuration
+# Configuration
 
-* Database creation
+# Database creation
   using postgres
 
-* Deployment instructions
-
-* ...
-# Bugzilla
-# Bugzilla
+# Deployment instructions
