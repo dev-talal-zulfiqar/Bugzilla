@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BugPolicy < ApplicationPolicy
   attr_reader :user, :bug
 
