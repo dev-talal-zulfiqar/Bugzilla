@@ -41,11 +41,11 @@ class BugsController < ApplicationController
 
   def update
     if @bug.update(permit_params)
-      flash[:success] = 'Bug updated!'
+      flash[:notice] = 'Bug updated!'
     else
       flash[:error] = 'something went wrong!'
     end
-    redirect_to request.referer
+    redirect_to root_path
   end
 
   def show
@@ -72,7 +72,8 @@ class BugsController < ApplicationController
   end
 
   def generate_new_bug(bug)
-    bug.status = bug.opened
+    bug.status = Bug.statuses['opened']
+    bug.assigned_to_id = nil
     bug.created_by_id = current_user.id
     bug.project_id = params[:project_id]
   end
