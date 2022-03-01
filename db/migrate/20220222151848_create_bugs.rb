@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class CreateBugs < ActiveRecord::Migration[5.2]
   def change
     create_table :bugs do |t|
-      t.string :title, null: false, index: { unique: true }
+      t.string :title, null: false
       t.string :description
       t.datetime :deadline
       t.integer :bug_type, null: false
@@ -12,5 +14,6 @@ class CreateBugs < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+    add_index 'bugs', %i[project_id title], unique: true
   end
 end

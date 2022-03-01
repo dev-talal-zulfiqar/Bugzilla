@@ -2,23 +2,31 @@
 
 # Bugs controller
 class BugsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :find_and_autherize, only: %i[edit update show destroy]
+  before_action :set_project, only: %i[index new]
+
   def index
-    @bugs = Bug.where(project_id: params[:project_id])
+    @project = set_project
+    authorize @project, :show?
+    if @project
+      @bugs = @project.bugs
+    else
+      flash[:error] = 'Project not found'
+    end
   end
 
   def new
-    @project = Project.find(params[:project_id])
+    @project = set_project
     @bug = Bug.new
     authorize @bug, :new?
-    @user = User.where(role: ['developer', 'software_quality_assurance'])
+    @user = User.where(role: %w[developer software_quality_assurance])
   end
 
   def create
     @bug = Bug.new(permit_params)
-    @bug.status = 'opened'
-    @bug.created_by_id = current_user.id
-    @bug.project_id = params[:project_id]
     authorize @bug, :create?
+    generate_new_bug(@bug)
     if @bug.save
       flash[:success] = 'Bug Generated'
     else
@@ -28,45 +36,53 @@ class BugsController < ApplicationController
   end
 
   def edit
-    id = params.require(:id)
-    @bug = Bug.find(id)
-    authorize @bug, :edit?
     @user = User.all
   end
 
   def update
-    @bug = Bug.find(params.require(:id))
-    authorize @bug, :update?
-    if @bug.update_attributes(permit_params)
-      flash[:success] = 'Bug updated!'
-      redirect_to ''
+    if @bug.update(permit_params)
+      flash[:notice] = 'Bug updated!'
     else
-      render action: :edit
+      flash[:error] = 'something went wrong!'
     end
+    redirect_to root_path
   end
 
   def show
-    @bug = Bug.find(params[:id])
-    id = @bug.created_by_id
-    @created_by = User.find(id)
+    @created_by = User.find(@bug.created_by_id)
     assigned_id = @bug.assigned_to_id
     @assigned_to = User.find(assigned_id)
   end
 
   def destroy
-    @bug = Bug.find(params[:id])
-    authorize @bug, :destroy?
+    @bug.screenshot.purge if @bug.screenshot.attached?
     if @bug.destroy
       flash[:notice] = 'Bug deleted!'
-      redirect_to project_bugs_path, project_id: params[:project_id]
     else
       flash[:error] = 'something went wrong'
     end
+    redirect_to request.referer
   end
 
   private
 
+  def find_and_autherize
+    @bug = Bug.find(params[:id])
+    authorize @bug
+  end
+
+  def generate_new_bug(bug)
+    bug.status = Bug.statuses['opened']
+    bug.assigned_to_id = nil
+    bug.created_by_id = current_user.id
+    bug.project_id = params[:project_id]
+  end
+
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
+
   def permit_params
-    params.require(:bug).permit(:title, :description, :assigned_to_id, :bug_type, :status, :deadline)
+    params.require(:bug).permit(:title, :description, :assigned_to_id, :bug_type, :status, :deadline, :screenshot)
   end
 end

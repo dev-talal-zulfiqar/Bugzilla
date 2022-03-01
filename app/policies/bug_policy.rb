@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BugPolicy < ApplicationPolicy
   attr_reader :user, :bug
 
@@ -12,23 +14,23 @@ class BugPolicy < ApplicationPolicy
   end
 
   def show?
-    user.manager? || user.software_quality_assurance? || bug.assigned_to_id == user.id
+    user
   end
 
   def create?
-    user.manager? || user.software_quality_assurance?
+    user.software_quality_assurance?
   end
 
   def new?
-    user.manager? || user.software_quality_assurance?
+    user.software_quality_assurance?
   end
 
   def update?
-    user.manager? || bug.assigned_to_id == user.id
+    user.developer? || bug.assigned_to_id == user.id
   end
 
   def edit?
-    user.manager? || bug.assigned_to_id == user.id
+    user.developer? || bug.assigned_to_id == user.id
   end
 
   def destroy?

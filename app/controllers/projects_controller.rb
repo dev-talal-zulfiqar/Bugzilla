@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :permit_params, only: [:create]
@@ -9,7 +11,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     authorize @project, :new?
-    @user = User.where(role: ['developer','software_quality_assurance'])
+    @user = User.where(role: %w[developer software_quality_assurance])
   end
 
   def create
@@ -45,8 +47,8 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params.require(:id))
-    @user = @project.users
     authorize @project, :show?
+    @user = @project.users
     @project
   end
 
