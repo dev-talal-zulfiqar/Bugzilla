@@ -1,0 +1,66 @@
+<div class="content">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-6">
+            <%= form_with(model: [@project, @bug]) do |f| %>
+                <div class="card-box task-detail">
+                    <div class="media mt-0 m-b-30">
+                      <img class="d-flex mr-3 rounded-circle" alt="64x64" src="https://bootdey.com/img/Content/avatar/avatar2.png" style="width: 48px; height: 48px;">
+                        <div class="media-body">
+                          <h5 class="media-heading mb-0 mt-0">Created By User Name</h5>
+                          <span class="badge badge-danger">Project Status</span>
+                        </div>
+                    </div>
+                    <div class='mt-2'>
+                      <h5 class="m-b-5">Bug Title</h5>
+                      <%= f.text_field :title, class: 'form-control', Required: true  %> <br />
+                    </div>
+                    <div class=''>
+                        <h5 class="m-b-5">Bug Type</h5>
+                        <%= f.select :bug_type, Bug.bug_types.keys.map { |w| [w.humanize, w] },{}, :class => 'form-control', disabled: is_editable %>
+                      </div>
+                    <div class='mt-2'>
+                      <h5 class="m-b-5">Description</h5>
+                      <%= f.text_area :description, :class => 'form-control'  %> <br />
+                    </div>
+                    <% if is_editable%>
+                      <div class=''>
+                        <h5 class="m-b-5">Status</h5>
+                        <%= f.select :status, Bug.statuses.keys.map { |w| [w.humanize, w] }, {}, class: 'form-control'%>
+                      </div>
+                    <%end%>
+                    <ul class="list-inline task-dates m-b-0 mt-2">
+                      <li>
+                        <h5 class="m-b-5">Due Date</h5>
+                        <%= f.date_field :deadline,  :class => 'form-control' %>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+
+                    <div class="assign-team mt-4 form-group last">
+                        <h5 class="m-b-5">Assign to</h5>
+                        <%= f.select :assigned_to_id, @user.map{ |type| [type.name.capitalize, type.id] }, {} ,:class => 'form-control' %>
+                    <div class="attached-files mt-4">
+                        <h5 class="">Attached Files</h5>
+                        <div class="files-list">
+                            <div class="file-box">
+                                <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-responsive img-thumbnail" alt="attached-img"></a>
+                                <p class="font-13 mb-1 text-muted"><small>File one</small></p>
+                            </div>
+                            <div class="file-box ml-3"><a href="#"><span class="add-new-plus"><i class="fa fa-plus"></i></span></a></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="text-right mt-4">
+                                    <%= f.submit "Create Bug" , :class => 'btn btn-success waves-effect waves-light' %>
+                                    <button type="button" class="btn btn-light waves-effect">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              <%end%>
+          </div>
+      </div>
+  </div>
+</div>
