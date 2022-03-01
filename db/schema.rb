@@ -49,13 +49,13 @@ ActiveRecord::Schema.define(version: 2022_02_25_075920) do
     t.datetime "updated_at", null: false
     t.index ["assigned_to_id"], name: "index_bugs_on_assigned_to_id"
     t.index ["created_by_id"], name: "index_bugs_on_created_by_id"
+    t.index ["project_id", "title"], name: "index_bugs_on_project_id_and_title", unique: true
     t.index ["project_id"], name: "index_bugs_on_project_id"
-    t.index ["title"], name: "index_bugs_on_title", unique: true
   end
 
   create_table "projects", force: :cascade do |t|
     t.string "title", null: false
-    t.string "description", null: false
+    t.string "description"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 2022_02_25_075920) do
   create_table "projects_users", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_projects_users_on_project_id"
     t.index ["user_id"], name: "index_projects_users_on_user_id"
   end

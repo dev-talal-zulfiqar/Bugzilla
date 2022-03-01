@@ -1,7 +1,7 @@
 <%= form_for([@project] ) do |f| %>
   <div class='form-group first'>
     <%= f.label :title %><br />
-    <%= f.text_field :title, :class => 'form-control', disabled: is_disabled, autofocus: true, autocomplete: 'title' %>
+    <%= f.text_field :title, class: 'form-control', disabled: is_disabled, Required: true, autofocus: true, autocomplete: 'title' %>
   </div>
 
   <div class='form-group last'>
@@ -11,7 +11,7 @@
 
     <div class='form-group last'>
       <%= f.label :Members %><br />
-      <%= f.select :user_id, @user.map{ |type| [type.name.capitalize, type.id] }, { multiple: true, size: 2 }, class: 'form-control',disabled: is_disabled %>
+      <%= f.select :user_id, @user.collect{ |type| [type.name.capitalize, type.id] }, { multiple: true, size: 2 }, class: 'form-control',disabled: is_disabled %>
     </div>
 
     <% if !is_disabled %>

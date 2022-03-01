@@ -17,7 +17,7 @@
                     </div>
                     <div class=''>
                         <h5 class='m-b-5'>Bug Type</h5>
-                        <%= f.select :bug_type, Bug.bug_types.keys.map { |w| [w.humanize, w] },{}, :class => 'form-control', disabled: is_editable %>
+                        <%= f.select :bug_type, Bug.bug_types.keys.collect { |w| [w.humanize, w] },{}, :class => 'form-control', disabled: is_editable %>
                       </div>
                     <div class='mt-2'>
                       <h5 class='m-b-5'>Description</h5>
@@ -26,7 +26,7 @@
                     <% if is_editable%>
                       <div class=''>
                         <h5 class='m-b-5'>Status</h5>
-                        <%= f.select :status, Bug.statuses.keys.map { |w| [w.humanize, w] }, {}, class: 'form-control'%>
+                        <%= f.select :status, Bug.statuses.keys.collect { |w| [w.humanize, w] }, {}, class: 'form-control'%>
                       </div>
                     <%end%>
                     <ul class='list-inline task-dates m-b-0 mt-2'>

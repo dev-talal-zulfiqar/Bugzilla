@@ -12,7 +12,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def show?
-    user.manager? || user.software_quality_assurance? || bug.assigned_to_id == user.id
+    user
   end
 
   def create?
