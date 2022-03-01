@@ -72,7 +72,8 @@ class BugsController < ApplicationController
   end
 
   def generate_new_bug(bug)
-    bug.status = bug.opened
+    bug.status = Bug.statuses['opened']
+    bug.assigned_to_id = nil
     bug.created_by_id = current_user.id
     bug.project_id = params[:project_id]
   end

@@ -36,10 +36,11 @@
                       </li>
                     </ul>
                     <div class='clearfix'></div>
-
                     <div class='assign-team mt-4 form-group last'>
+                    <% if is_editable%>
                         <h5 class='m-b-5'>Assign to</h5>
                         <%= f.select :assigned_to_id, @user.collect{ |type| [type.name.capitalize, type.id] }, {} ,class: 'form-control' %>
+                    <% end %>
                     <div class='attached-files mt-4'>
                         <h5 class=''>Attached Files</h5>
                         <div class='files-list'>
