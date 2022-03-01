@@ -45,7 +45,7 @@
                         <h5 class=''>Attached Files</h5>
                         <div class='files-list'>
                             <% if @bug.screenshot.attached?%>
-                              <%= image_tag(@bug&.screenshot?,style: 'width: 100%') %>
+                              <%= image_tag(@bug&.screenshot ,style: 'width: 100%') %>
                             <%end%>
                             <div class='file-box'>
                               <%= f.file_field :screenshot, direct_upload: true, accept: 'image/png,image/jpeg'%>
