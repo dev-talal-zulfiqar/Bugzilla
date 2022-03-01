@@ -20,10 +20,14 @@
                   <div class='clearfix'></div>
                   <div class='assign-team mt-4'>
                       <h5 class='m-b-5'>Assign to</h5>
-                      <div>
-                        <a href='#'><img class='rounded-circle thumb-sm' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar5.png'> </a>
-                        <%= @assigned_to.name%>
-                      </div>
+                        <% if @assigned_to&.name %>
+                          <div>
+                            <a href='#'><img class='rounded-circle thumb-sm' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar5.png'> </a>
+                            <%= @assigned_to&.name %>
+                          </div>
+                        <% else %>
+                          <p>Not assigned to anyone</p>
+                        <% end %>
                   <div class='attached-files mt-4'>
                       <h5 class=''>Attached Files</h5>
                       <div class='files-list'>

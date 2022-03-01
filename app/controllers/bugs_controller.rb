@@ -40,12 +40,12 @@ class BugsController < ApplicationController
   end
 
   def update
-    if @bug.update_attributes(permit_params)
+    if @bug.update(permit_params)
       flash[:success] = 'Bug updated!'
-      redirect_to ''
     else
-      render action: :edit
+      flash[:error] = 'something went wrong!'
     end
+    redirect_to request.referer
   end
 
   def show
@@ -58,10 +58,10 @@ class BugsController < ApplicationController
     @bug.screenshot.purge if @bug.screenshot.attached?
     if @bug.destroy
       flash[:notice] = 'Bug deleted!'
-      redirect_to request.referrer
     else
       flash[:error] = 'something went wrong'
     end
+    redirect_to request.referer
   end
 
   private
