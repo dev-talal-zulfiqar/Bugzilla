@@ -10,15 +10,15 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name role])
   end
 
   def user_not_authorized
     flash[:alert] = 'You are not authorized to perform this action.'
-    redirect_to(request.referrer || root_path)
+    redirect_to(request.referer || root_path)
   end
 
   def record_not_found
-    render text: '404 Not Found', status: 404
+    render text: '404 Not Found', status: :not_found
   end
 end

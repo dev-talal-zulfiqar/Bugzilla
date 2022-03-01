@@ -3,7 +3,7 @@
 <% if current_user.manager? %>
   <%= link_to('Create New Project',new_project_path, :method => :get) %>
 <%end%>
-<% if !current_user.developer? %>
+<% if current_user.software_quality_assurance? %>
   <%= link_to('Create New Bug',new_project_bug_path, :method => :get) %>
 <%end%>
 

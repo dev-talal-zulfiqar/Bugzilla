@@ -3,8 +3,9 @@
 # Bugs controller
 class BugsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_and_autherize, only: %w[edit update show destroy]
-  before_action :set_project, only: %w[index new]
+  before_action :find_and_autherize, only: %i[edit update show destroy]
+  before_action :set_project, only: %i[index new]
+
   def index
     @project = set_project
     authorize @project, :show?
@@ -39,12 +40,12 @@ class BugsController < ApplicationController
   end
 
   def update
-    if @bug.update_attributes(permit_params)
-      flash[:success] = 'Bug updated!'
-      redirect_to ''
+    if @bug.update(permit_params)
+      flash[:notice] = 'Bug updated!'
     else
-      render action: :edit
+      flash[:error] = 'something went wrong!'
     end
+    redirect_to root_path
   end
 
   def show
@@ -57,10 +58,10 @@ class BugsController < ApplicationController
     @bug.screenshot.purge if @bug.screenshot.attached?
     if @bug.destroy
       flash[:notice] = 'Bug deleted!'
-      redirect_to request.referrer
     else
       flash[:error] = 'something went wrong'
     end
+    redirect_to request.referer
   end
 
   private
@@ -71,7 +72,8 @@ class BugsController < ApplicationController
   end
 
   def generate_new_bug(bug)
-    bug.status = 'opened'
+    bug.status = Bug.statuses['opened']
+    bug.assigned_to_id = nil
     bug.created_by_id = current_user.id
     bug.project_id = params[:project_id]
   end

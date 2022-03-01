@@ -5,7 +5,7 @@
             <%= form_with(model: [@project, @bug]) do |f| %>
                 <div class='card-box task-detail'>
                     <div class='media mt-0 m-b-30'>
-                      <img class='d-flex mr-3 rounded-circle' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar2.png' style='width: 48px; height: 48px;'>
+                      <img class='d-flex mr-3 rounded-circle avatar-width' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar2.png'>
                         <div class='media-body'>
                           <h5 class='media-heading mb-0 mt-0'>Created By User Name</h5>
                           <span class='badge badge-danger'>Project Status</span>
@@ -17,7 +17,7 @@
                     </div>
                     <div class=''>
                         <h5 class='m-b-5'>Bug Type</h5>
-                        <%= f.select :bug_type, Bug.bug_types.keys.map { |w| [w.humanize, w] },{}, :class => 'form-control', disabled: is_editable %>
+                        <%= f.select :bug_type, Bug.bug_types.keys.collect { |w| [w.humanize, w] },{}, :class => 'form-control', disabled: is_editable %>
                       </div>
                     <div class='mt-2'>
                       <h5 class='m-b-5'>Description</h5>
@@ -26,7 +26,7 @@
                     <% if is_editable%>
                       <div class=''>
                         <h5 class='m-b-5'>Status</h5>
-                        <%= f.select :status, Bug.statuses.keys.map { |w| [w.humanize, w] }, {}, class: 'form-control'%>
+                        <%= f.select :status, Bug.statuses.keys.collect { |w| [w.humanize, w] }, {}, class: 'form-control'%>
                       </div>
                     <%end%>
                     <ul class='list-inline task-dates m-b-0 mt-2'>
@@ -36,15 +36,16 @@
                       </li>
                     </ul>
                     <div class='clearfix'></div>
-
                     <div class='assign-team mt-4 form-group last'>
+                    <% if is_editable%>
                         <h5 class='m-b-5'>Assign to</h5>
-                        <%= f.select :assigned_to_id, @user.map{ |type| [type.name.capitalize, type.id] }, {} ,:class => 'form-control' %>
+                        <%= f.select :assigned_to_id, @user.collect{ |type| [type.name.capitalize, type.id] }, {} ,class: 'form-control' %>
+                    <% end %>
                     <div class='attached-files mt-4'>
                         <h5 class=''>Attached Files</h5>
                         <div class='files-list'>
                             <% if @bug.screenshot.attached?%>
-                              <%= image_tag(@bug&.screenshot?,style: 'width: 100%') %>
+                              <%= image_tag(@bug&.screenshot ,style: 'width: 100%') %>
                             <%end%>
                             <div class='file-box'>
                               <%= f.file_field :screenshot, direct_upload: true, accept: 'image/png,image/jpeg'%>
@@ -53,7 +54,7 @@
                         <div class='row'>
                             <div class='col-sm-12'>
                                 <div class='text-right mt-4'>
-                                    <%= f.submit 'Create Bug' , :class => 'btn btn-success waves-effect waves-light' %>
+                                    <%= f.submit !is_editable ? 'Create Bug' : 'Update Bug', :class => 'btn btn-success waves-effect waves-light' %>
                                     <button type='button' class='btn btn-light waves-effect'>Cancel</button>
                                 </div>
                             </div>

@@ -1,0 +1,20 @@
+<%= form_for([@project] ) do |f| %>
+  <div class='form-group first'>
+    <%= f.label :title %><br />
+    <%= f.text_field :title, class: 'form-control', disabled: is_disabled, Required: true, autofocus: true, autocomplete: 'title' %>
+  </div>
+
+  <div class='form-group last'>
+    <%= f.label :description %><br />
+    <%= f.text_field :description, class: 'form-control', disabled: is_disabled, autocomplete: 'description' %>
+  </div>
+
+    <div class='form-group last'>
+      <%= f.label :Members %><br />
+      <%= f.select :user_id, @user.collect{ |type| [type.name.capitalize, type.id] }, { multiple: true, size: 2 }, class: 'form-control',disabled: is_disabled %>
+    </div>
+
+    <% if !is_disabled %>
+      <%= f.submit !is_editable ? 'Create Project' : 'Update Project', class: 'btn btn-block btn-primary btn-theme-color mb-2' %>
+    <% end %>
+<% end %>
