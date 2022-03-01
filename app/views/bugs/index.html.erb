@@ -1,10 +1,11 @@
 
 <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
 <%= link_to('Create New Project',new_project_path, :method => :get) %>
+<%= link_to('Create New Bug',new_project_bug_path, :method => :get) %>
 <div class='container'>
   <div class='row justify-content-center'>
     <div class='col-md-6 text-center mb-5'>
-      <h2 class='heading-section'>List of Projects</h2>
+      <h2 class='heading-section'>List of Bugs</h2>
     </div>
   </div>
   <div class='row'>
@@ -20,15 +21,15 @@
             </tr>
           </thead>
           <tbody>
-          <% @projects.each do |project| %>
+          <% @bugs.each do |bug| %>
             <tr>
-              <th scope='row'><%= project.id%></th>
-              <td><%=project.title %></td>
-              <td><%=project.description %></td>
+              <th scope='row'><%= bug.id%></th>
+              <td><%=bug.title %></td>
+              <td><%=bug.description %></td>
               <td>
-              <%= link_to('Details',project_path(project.id), :method => :get)%> /
-              <%= link_to('Edit',edit_project_path(project.id), :method => :get)%> /
-              <%= link_to('Delete',project, method: :delete, :onclick => "return confirm('Are you sure you want to delete this post?')")%>
+              <%= link_to('Details',bug_path(bug.id), :method => :get)%> /
+              <%= link_to('Edit',edit_bug_path(bug.id), :method => :get)%> /
+              <%= link_to('Delete',bug, method: :delete, :onclick => "return confirm('Are you sure you want to delete this post?')")%>
               </td>
             </tr>
           <%end%>
