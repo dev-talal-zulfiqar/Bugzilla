@@ -7,7 +7,6 @@ class BugsController < ApplicationController
   before_action :set_project, only: %i[index new]
 
   def index
-    @project = set_project
     authorize @project, :show?
     if @project
       @bugs = @project.bugs
@@ -17,7 +16,6 @@ class BugsController < ApplicationController
   end
 
   def new
-    @project = set_project
     @bug = Bug.new
     authorize @bug, :new?
     @user = User.where(role: %w[developer software_quality_assurance])
@@ -36,7 +34,11 @@ class BugsController < ApplicationController
   end
 
   def edit
-    @user = User.all
+    @user = if current_user.manager?
+              User.all
+            else
+              [current_user]
+            end
   end
 
   def update
@@ -49,9 +51,9 @@ class BugsController < ApplicationController
   end
 
   def show
-    @created_by = User.find(@bug.created_by_id)
-    assigned_id = @bug.assigned_to_id
-    @assigned_to = User.find(assigned_id)
+    @created_by = User.find_by(id: @bug&.created_by_id)
+    assigned_id = @bug&.assigned_to_id
+    @assigned_to = User.find_by(id: assigned_id)
   end
 
   def destroy
@@ -67,8 +69,8 @@ class BugsController < ApplicationController
   private
 
   def find_and_autherize
-    @bug = Bug.find(params[:id])
-    authorize @bug
+    @bug = Bug.find_by(id: params[:id])
+    authorize @bug if @bug
   end
 
   def generate_new_bug(bug)

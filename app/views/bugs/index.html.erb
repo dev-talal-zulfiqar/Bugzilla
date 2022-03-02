@@ -32,8 +32,11 @@
               <td><%=bug.title %></td>
               <td><%=bug.description %></td>
               <td>
-              <%= link_to('Details',bug_path(bug.id), :method => :get)%> /
+              <%= link_to('Details',bug_path(bug.id), :method => :get)%>
+              <% if policy(bug).edit? %>
+                /
               <%= link_to('Edit',edit_bug_path(bug.id), :method => :get)%>
+              <% end %>
               <% if policy(bug).destroy? %>
                 /
                 <%= link_to('Delete',bug, method: :delete, :onclick => "return confirm('Are you sure you want to delete this post?')")%>

@@ -15,7 +15,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    user.manager? || user.software_quality_assurance? || include_user
+    (user.manager? && project.user_id == user.id) || user.software_quality_assurance? || include_user
   end
 
   def create?
@@ -31,11 +31,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.manager? && project.created_by == user
+    update?
   end
 
   def destroy?
-    user.manager? && project.created_by == user
+    edit?
   end
 
   def include_user
