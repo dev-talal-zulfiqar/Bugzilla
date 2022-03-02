@@ -26,7 +26,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def edit?
-    (user.manager? && bug.project.user_id == user.id) || user.developer? || bug.assigned_to_id == user.id
+    edit_access || bug.assigned_to_id == user.id
   end
 
   def update?
@@ -37,10 +37,11 @@ class BugPolicy < ApplicationPolicy
     user.manager? || user.software_quality_assurance?
   end
 
-  # def include_user
-  #   bug.project.users.include? user
-  # end
+  def include_user
+    bug.project.users.include? user
+  end
 
-  # class Scope < Scope
-  # end
+  def edit_access
+    (user.manager? && bug.project.user_id == user.id) || (user.developer? && include_user)
+  end
 end
