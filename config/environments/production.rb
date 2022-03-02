@@ -25,8 +25,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = Uglifier.new(harmony: true)
-
+  config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -104,8 +103,8 @@ Rails.application.configure do
       address: 'smtp.gmail.com',
       port: 587,
       domain: 'localhost:3000',
-      user_name: Rails.application.credentials(:GMAIL_USERNAME),
-      password: Rails.application.credentials(:GMAIL_KEY),
+      user_name: Rails.application.credentials.dig(:GMAIL_USERNAME),
+      password: Rails.application.credentials.dig(:GMAIL_KEY),
       authentication: 'plain',
       enable_starttls_auto: true
     }
