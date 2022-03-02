@@ -6,15 +6,15 @@
                   <div class='media mt-0 m-b-30'>
                     <img class='d-flex mr-3 rounded-circle avatar-width' alt='64x64' src='https://bootdey.com/img/Content/avatar/avatar2.png'>
                       <div class='media-body'>
-                        <h5 class='media-heading mb-0 mt-0'><%= @created_by.name%></h5><span class='badge badge-danger'><%= @bug.status%></span>
+                        <h5 class='media-heading mb-0 mt-0'><%= @created_by&.name%></h5><span class='badge badge-danger'><%= @bug&.status%></span>
                       </div>
                   </div>
-                  <h4 class='m-b-20'><%= @bug.title %></h4>
-                  <p class='text-muted'><%= @bug.description %></p>
+                  <h4 class='m-b-20'><%= @bug&.title %></h4>
+                  <p class='text-muted'><%= @bug&.description %></p>
                   <ul class='list-inline task-dates m-b-0 mt-5'>
                     <li>
                       <h5 class='m-b-5'>Due Date</h5>
-                      <p><%= @bug.deadline%></p>
+                      <p><%= @bug&.deadline%></p>
                     </li>
                   </ul>
                   <div class='clearfix'></div>
@@ -31,8 +31,8 @@
                   <div class='attached-files mt-4'>
                       <h5 class=''>Attached Files</h5>
                       <div class='files-list'>
-                          <% if @bug.screenshot.attached?%>
-                            <%= image_tag(@bug.screenshot, style: 'width: 100%') %>
+                          <% if @bug&.screenshot && @bug.screenshot.attached?%>
+                            <%= image_tag(@bug&.screenshot, style: 'width: 100%') %>
                           <% else %>
                             <p>No photo attached</p>
                           <% end %>

@@ -26,7 +26,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.developer? || bug.assigned_to_id == user.id
+    (user.manager? && bug.project.user_id == user.id) || user.developer? || bug.assigned_to_id == user.id
   end
 
   def update?

@@ -25,8 +25,6 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'pundit'
 
-gem 'figaro'
-
 gem 'rubocop', require: false
 gem 'rubocop-minitest', require: false
 gem 'rubocop-performance', require: false

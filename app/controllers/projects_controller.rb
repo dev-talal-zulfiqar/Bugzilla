@@ -17,9 +17,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(permit_params)
-    authorize @project, :create?
-    @project.user_id = current_user.id
-    @project.save
+    save_project(@project)
     if @project.projects_users.create(user_id: permit_params[:user_id])
       flash[:notice] = 'Project created!'
     else
@@ -61,6 +59,12 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def save_project(project)
+    authorize project, :create?
+    project.user_id = current_user.id
+    project.save
+  end
 
   def find_and_authorize_project
     @project = Project.find(params[:id])
