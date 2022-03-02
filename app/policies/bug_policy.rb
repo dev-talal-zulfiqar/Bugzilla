@@ -17,30 +17,30 @@ class BugPolicy < ApplicationPolicy
     user
   end
 
-  def create?
-    user.software_quality_assurance?
-  end
-
   def new?
     user.software_quality_assurance?
   end
 
-  def update?
-    user.developer? || bug.assigned_to_id == user.id
+  def create?
+    new?
   end
 
   def edit?
     user.developer? || bug.assigned_to_id == user.id
   end
 
+  def update?
+    edit?
+  end
+
   def destroy?
     user.manager? || user.software_quality_assurance?
   end
 
-  def include_user
-    bug.project.users.include? user
-  end
+  # def include_user
+  #   bug.project.users.include? user
+  # end
 
-  class Scope < Scope
-  end
+  # class Scope < Scope
+  # end
 end

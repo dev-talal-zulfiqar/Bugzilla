@@ -7,7 +7,6 @@ class BugsController < ApplicationController
   before_action :set_project, only: %i[index new]
 
   def index
-    @project = set_project
     authorize @project, :show?
     if @project
       @bugs = @project.bugs
@@ -17,7 +16,6 @@ class BugsController < ApplicationController
   end
 
   def new
-    @project = set_project
     @bug = Bug.new
     authorize @bug, :new?
     @user = User.where(role: %w[developer software_quality_assurance])
