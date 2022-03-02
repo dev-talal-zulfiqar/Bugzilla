@@ -1,6 +1,6 @@
 production:
-  cloud_name: 'dsjn0xyby'
-  api_key: '838534121981359'
-  api_secret: 'JnZ1BEwluzT2U_7_bTrMO1FkqFQ'
+  cloud_name: ENV['CLOUDNIARY_CLOUD_NAME']
+  api_key: ENV['CLOUDNIARY_API_KEY']
+  api_secret: ENV['CLOUDNIARY_API_SECRET']
   secure: true
   cdn_subdomain: true
