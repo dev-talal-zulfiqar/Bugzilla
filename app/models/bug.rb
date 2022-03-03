@@ -10,6 +10,7 @@ class Bug < ApplicationRecord
   enum status: { opened: 0, started: 1, completed: 2, resolved: 3 }
 
   validates :title, :bug_type, :status, presence: true
+  validates :title, uniqueness: { scope: :project }
   validate :screenshot_valid
 
   private

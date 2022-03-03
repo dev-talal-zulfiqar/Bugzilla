@@ -11,7 +11,7 @@
 
     <div class='form-group last'>
       <%= f.label :Members %><br />
-      <%= f.select :user_id, @user.collect{ |type| [type.name.capitalize, type.id] }, { multiple: true, size: 2 }, class: 'form-control',disabled: is_disabled %>
+        <%= f.select :user_id, @users.collect{ |user| [user.name.capitalize, user.id] }, { :multiple => true}, class: 'form-control',disabled: is_disabled %>
     </div>
 
     <% if !is_disabled %>

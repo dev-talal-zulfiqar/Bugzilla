@@ -11,7 +11,7 @@ class BugsController < ApplicationController
     if @project
       @bugs = @project.bugs
     else
-      flash[:error] = 'Project not found'
+      flash[:alert] = 'Project not found'
     end
   end
 
@@ -25,10 +25,11 @@ class BugsController < ApplicationController
     @bug = Bug.new(permit_params)
     authorize @bug, :create?
     generate_new_bug(@bug)
-    if @bug.save
-      flash[:success] = 'Bug Generated'
+    if @bug.valid?
+      @bug.save!
+      flash[:notice] = 'Bug Generated'
     else
-      flash[:error] = 'something went wrong'
+      flash[:alert] = @bug.errors.full_messages
     end
     redirect_to project_bugs_path, project_id: params[:project_id]
   end
@@ -45,15 +46,14 @@ class BugsController < ApplicationController
     if @bug.update(permit_params)
       flash[:notice] = 'Bug updated!'
     else
-      flash[:error] = 'something went wrong!'
+      flash[:alert] = 'something went wrong!'
     end
     redirect_to root_path
   end
 
   def show
     @created_by = User.find_by(id: @bug&.created_by_id)
-    assigned_id = @bug&.assigned_to_id
-    @assigned_to = User.find_by(id: assigned_id)
+    @assigned_to = User.find_by(id: @bug&.assigned_to_id)
   end
 
   def destroy
@@ -61,7 +61,7 @@ class BugsController < ApplicationController
     if @bug.destroy
       flash[:notice] = 'Bug deleted!'
     else
-      flash[:error] = 'something went wrong'
+      flash[:alert] = 'something went wrong'
     end
     redirect_to request.referer
   end
