@@ -13,11 +13,11 @@
                     </div>
                     <div class='mt-2'>
                       <h5 class='m-b-5'>Bug Title</h5>
-                      <%= f.text_field :title, class: 'form-control', Required: true  %> <br />
+                      <%= f.text_field :title, class: 'form-control', Required: true, disabled: is_editable %> <br />
                     </div>
                     <div class=''>
                         <h5 class='m-b-5'>Bug Type</h5>
-                        <%= f.select :bug_type, Bug.bug_types.keys.collect { |w| [w.humanize, w] },{}, :class => 'form-control', disabled: is_editable %>
+                        <%= f.select :bug_type, @bug_types, {}, :class => 'form-control', disabled: is_editable %>
                       </div>
                     <div class='mt-2'>
                       <h5 class='m-b-5'>Description</h5>
@@ -26,7 +26,7 @@
                     <% if is_editable%>
                       <div class=''>
                         <h5 class='m-b-5'>Status</h5>
-                        <%= f.select :status, Bug.statuses.keys.collect { |w| [w.humanize, w] }, {}, class: 'form-control'%>
+                        <%= f.select :status, @statuses, {}, class: 'form-control'%>
                       </div>
                     <%end%>
                     <ul class='list-inline task-dates m-b-0 mt-2'>
@@ -39,7 +39,7 @@
                     <div class='assign-team mt-4 form-group last'>
                     <% if is_editable%>
                         <h5 class='m-b-5'>Assign to</h5>
-                        <%= f.select :assigned_to_id, @user.collect{ |type| [type.name.capitalize, type.id] }, {} ,class: 'form-control' %>
+                        <%= f.select :assigned_to_id, @user, {} ,class: 'form-control' %>
                     <% end %>
                     <div class='attached-files mt-4'>
                         <h5 class=''>Attached Files</h5>
@@ -48,7 +48,8 @@
                               <%= image_tag(@bug&.screenshot ,style: 'width: 100%') %>
                             <%end%>
                             <div class='file-box'>
-                              <%= f.file_field :screenshot, direct_upload: true, accept: 'image/png,image/jpeg'%>
+                            <%= f.file_field :screenshot, onchange: "validateFiles(this);",
+                                    data: { max_file_size: 25.megabytes } %>
                             </div>
                         </div>
                         <div class='row'>

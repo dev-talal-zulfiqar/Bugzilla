@@ -9,10 +9,32 @@
     <%= f.text_field :description, class: 'form-control', disabled: is_disabled, autocomplete: 'description' %>
   </div>
 
-    <div class='form-group last'>
-      <%= f.label :Members %><br />
-        <%= f.select :user_id, @users.collect{ |user| [user.name.capitalize, user.id] }, { :multiple => true}, class: 'form-control',disabled: is_disabled %>
-    </div>
+    <% if !is_disabled %>
+      <div class='form-group last'>
+        <%= f.label :Add_Members %><br />
+        <%= f.select :user_id, @users, { :multiple => true, :size => 5}, class: 'form-control input-sm selectpicker',disabled: is_disabled %>
+      </div>
+    <% end %>
+
+    <% if is_disabled || is_editable %>
+      <%= f.label :Current_Members %><br />
+      <table class='table'>
+            <thead class='thead-primary primary-color'>
+              <tr>
+                <th>User id</th>
+                <th>User Name</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% @project&.users&.each do |user| %>
+              <tr>
+                <th scope='row'><%= user.id %></th>
+                <td><%= user.name %></td>
+              </tr>
+            <%end%>
+            </tbody>
+          </table>
+    <% end %>
 
     <% if !is_disabled %>
       <%= f.submit !is_editable ? 'Create Project' : 'Update Project', class: 'btn btn-block btn-primary btn-theme-color mb-2' %>

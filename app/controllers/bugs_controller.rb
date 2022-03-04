@@ -18,7 +18,9 @@ class BugsController < ApplicationController
   def new
     @bug = Bug.new
     authorize @bug, :new?
-    @user = User.where(role: %w[developer software_quality_assurance])
+    @user = User.where(role: %w[developer software_quality_assurance]).pluck('name', 'id')
+    @bug_types = Bug.bug_types.keys.collect { |w| [w.humanize, w] }
+    @statuses = Bug.statuses.keys.collect { |w| [w.humanize, w] }
   end
 
   def create
@@ -35,11 +37,9 @@ class BugsController < ApplicationController
   end
 
   def edit
-    @user = if current_user.manager?
-              User.all
-            else
-              [current_user]
-            end
+    @user = User.where(id: current_user.id).pluck('name', 'id')
+    @bug_types = Bug.bug_types.keys.collect { |w| [w.humanize, w] }
+    @statuses = Bug.statuses.keys.collect { |w| [w.humanize, w] }
   end
 
   def update

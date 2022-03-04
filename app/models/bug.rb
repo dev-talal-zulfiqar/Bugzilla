@@ -27,6 +27,6 @@ class Bug < ApplicationRecord
   end
 
   def screenshot_size
-    errors.add(:screenshot, 'size should be less than 2MB') if screenshot.blob.byte_size > 25.megabytes
+    errors.add(:screenshot, 'size should be less than 25MB') if screenshot.blob.byte_size > 25.megabytes
   end
 end
