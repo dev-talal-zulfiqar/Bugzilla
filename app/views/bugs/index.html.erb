@@ -22,6 +22,8 @@
               <th>#</th>
               <th>Title</th>
               <th>Description</th>
+              <th>Assigned To</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -29,8 +31,10 @@
           <% @bugs.each do |bug| %>
             <tr>
               <th scope='row'><%= bug.id%></th>
-              <td><%=bug.title %></td>
-              <td><%=bug.description %></td>
+              <td><%= bug.title %></td>
+              <td><%= bug.description %></td>
+              <td><%= User.where(id:bug&.assigned_to_id).pluck('name')[0] %></td>
+              <td><%= bug&.status %></td>
               <td>
               <%= link_to('Details',bug_path(bug.id), :method => :get)%>
               <% if policy(bug).edit? %>

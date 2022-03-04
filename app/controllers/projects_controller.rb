@@ -12,16 +12,15 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     authorize @project, :new?
-    @user = User.where(role: %w[developer software_quality_assurance])
+    @users = User.where(role: %w[developer software_quality_assurance]).pluck('name', 'id')
   end
 
   def create
     @project = Project.new(permit_params)
-    save_project(@project)
-    if @project.projects_users.create(user_id: permit_params[:user_id])
+    if save_project(@project) && @project.projects_users.create(user_id: permit_params[:user_id])
       flash[:notice] = 'Project created!'
     else
-      flash[:error] = 'Something Went Wrong!'
+      flash[:alert] = 'Something Went Wrong!'
     end
     redirect_to root_path
   end
@@ -30,12 +29,12 @@ class ProjectsController < ApplicationController
     id = params.require(:id)
     @project = Project.find(id)
     authorize @project, :edit?
-    @user = User.all
+    @users = User.where(role: %w[developer software_quality_assurance]).pluck('name', 'id')
   end
 
   def update
     find_and_authorize_project
-    if @project.projects_users.update(user_id: permit_params[:user_id])
+    if @project.projects_users.create(user_id: permit_params[:user_id])
       flash[:notice] = 'Project updated!'
       redirect_to root_path
     else
@@ -45,7 +44,7 @@ class ProjectsController < ApplicationController
 
   def show
     find_and_authorize_project
-    @user = @project.users
+    @users = @project.users
   end
 
   def destroy

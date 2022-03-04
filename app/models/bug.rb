@@ -10,6 +10,7 @@ class Bug < ApplicationRecord
   enum status: { opened: 0, started: 1, completed: 2, resolved: 3 }
 
   validates :title, :bug_type, :status, presence: true
+  validates :title, uniqueness: { scope: :project }
   validate :screenshot_valid
 
   private
@@ -26,6 +27,6 @@ class Bug < ApplicationRecord
   end
 
   def screenshot_size
-    errors.add(:screenshot, 'size should be less than 2MB') if screenshot.blob.byte_size > 25.megabytes
+    errors.add(:screenshot, 'size should be less than 25MB') if screenshot.blob.byte_size > 25.megabytes
   end
 end

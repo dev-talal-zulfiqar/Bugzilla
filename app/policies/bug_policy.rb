@@ -34,7 +34,8 @@ class BugPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.manager? || user.software_quality_assurance?
+    # user.manager? || user.software_quality_assurance?
+    user.software_quality_assurance?
   end
 
   def include_user
@@ -42,6 +43,6 @@ class BugPolicy < ApplicationPolicy
   end
 
   def edit_access
-    (user.manager? && bug.project.user_id == user.id) || (user.developer? && include_user)
+    user.developer? && include_user
   end
 end
