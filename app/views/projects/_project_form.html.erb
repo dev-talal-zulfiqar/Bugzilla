@@ -23,6 +23,7 @@
               <tr>
                 <th>User id</th>
                 <th>User Name</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -30,6 +31,10 @@
               <tr>
                 <th scope='row'><%= user.id %></th>
                 <td><%= user.name %></td>
+                <td>
+                  <% if policy(@project).edit? %>
+                    <%= link_to('remove user', remove_user_from_project_path( id: @project.id, u_id: user.id), method: :post, :onclick => "return confirm('Do you really want to remove this user?')")%>
+                  <% end %>
               </tr>
             <%end%>
             </tbody>

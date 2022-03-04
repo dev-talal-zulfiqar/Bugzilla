@@ -1,12 +1,7 @@
 
-<%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-<% if current_user.manager? %>
-  <%= link_to('Create New Project',new_project_path, :method => :get) %>
-<%end%>
 <% if current_user.software_quality_assurance? %>
   <%= link_to('Create New Bug',new_project_bug_path, :method => :get) %>
 <%end%>
-
 <div class='container'>
   <div class='row justify-content-center'>
     <div class='col-md-6 text-center mb-5'>
@@ -22,7 +17,10 @@
               <th>#</th>
               <th>Title</th>
               <th>Description</th>
-              <th>Assigned To</th>
+              <th> <% if current_user.manager? %>
+                    Assigned To
+                    <% end %>
+              </th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -33,7 +31,11 @@
               <th scope='row'><%= bug.id%></th>
               <td><%= bug.title %></td>
               <td><%= bug.description %></td>
-              <td><%= User.where(id:bug&.assigned_to_id).pluck('name')[0] %></td>
+              <td>
+                <% if current_user.manager? %>
+                   <%= User.where(id:bug&.assigned_to_id).pluck('name')[0] %>
+                <% end %>
+              </td>
               <td><%= bug&.status %></td>
               <td>
               <%= link_to('Details',bug_path(bug.id), :method => :get)%>

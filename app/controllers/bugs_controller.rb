@@ -25,13 +25,12 @@ class BugsController < ApplicationController
 
   def create
     @bug = Bug.new(permit_params)
-    authorize @bug, :create?
     generate_new_bug(@bug)
     if @bug.valid?
       @bug.save!
       flash[:notice] = 'Bug Generated'
     else
-      flash[:alert] = @bug.errors.full_messages
+      flash[:alert] = @bug.errors.full_messages.to_s
     end
     redirect_to project_bugs_path, project_id: params[:project_id]
   end
@@ -74,6 +73,7 @@ class BugsController < ApplicationController
   end
 
   def generate_new_bug(bug)
+    authorize @bug, :create?
     bug.status = Bug.statuses['opened']
     bug.assigned_to_id = nil
     bug.created_by_id = current_user.id

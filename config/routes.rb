@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :projects do
     resources :bugs, shallow: true
   end
+  post '/projects/:id', to: 'projects#remove_user_from_project', as: :remove_user_from_project
 
   root to: 'projects#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

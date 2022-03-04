@@ -36,10 +36,10 @@ class ProjectsController < ApplicationController
     find_and_authorize_project
     if @project.projects_users.create(user_id: permit_params[:user_id])
       flash[:notice] = 'Project updated!'
-      redirect_to root_path
     else
-      render action: :edit
+      flash[:alert] = 'Error! Project not updated!'
     end
+    redirect_to root_path
   end
 
   def show
@@ -55,6 +55,17 @@ class ProjectsController < ApplicationController
     else
       flash[:notice] = 'something went wrong!'
     end
+  end
+
+  def remove_user_from_project
+    u_id = params[:u_id]
+    p_id = params[:id]
+    if ProjectsUser.where(user_id: u_id, project_id: p_id).destroy_all
+      flash[:notice] = 'User Removed!'
+    else
+      flash[:alert] = 'Could not remove User!'
+    end
+    redirect_to project_path(p_id)
   end
 
   private
