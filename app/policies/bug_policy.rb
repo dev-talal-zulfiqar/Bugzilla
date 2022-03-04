@@ -43,7 +43,6 @@ class BugPolicy < ApplicationPolicy
   end
 
   def edit_access
-    # (user.manager? && bug.project.user_id == user.id) || (user.developer? && include_user)
     user.developer? && include_user
   end
 end
